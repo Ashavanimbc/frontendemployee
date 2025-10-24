@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+import React, { useEffect, useState } from "react";
 
 function App() {
+  const [employees, setEmployees] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/employees")
+      .then(res => res.json())
+      .then(data => setEmployees(data))
+      .catch(err => console.error(err));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ textAlign: "center", marginTop: "40px" }}>
+      <h2>Employee Details (GET Method Example)</h2>
+      <table border="1" style={{ margin: "auto", width: "60%" }}>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Salary (₹)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {employees.map((emp, i) => (
+            <tr key={i}>
+              <td>{emp.name}</td>
+              <td>{emp.department}</td>
+              <td>{emp.salary}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
